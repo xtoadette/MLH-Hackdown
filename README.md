@@ -1,0 +1,2 @@
+# MLH-Hackdown
+Our groups Stephanie, Spandana, Stenneth and Haemah decided to create a project called “Covid-19 in a nutshell”. This project was directed by Stephanie with the help of her team members. They were able to scrape and create a website which would inform the audience with information of the coronavirus pandemic in terms of its environmental impact, case numbers, and social impact. Through scrape information was gathered. Beautiful soup was used as well as python. 
