@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+ <head>
+   <meta charset="utf-8">
+   <title>Covid-19 in a Nutshell</title>
+   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+ </head>
+ <body>
+    <header>
+    </header>
+    <div class="main-div">
+        <div class="div-col">
+            <img class="main-logo" src="/static/logo.jpeg">
+        </div>
+        <div class="div-col">
+            <h1>Covid-19 in a Nutshell</h1>
+            <ul>
+                <li class="main-list"><a href="{{ url_for('index_func') }}">Cases</a></li>
+                <li class="main-list"><a href="{{ url_for('env_func') }}">Environmental Impact</a></li>
+                <li class="main-list"><a href="{{ url_for('impact_func') }}">Social Impact</a></li>
+            </ul>
+        </div>
+    </div>
+ </body>
+</html>

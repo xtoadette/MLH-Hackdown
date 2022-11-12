@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cases</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2><a href="{{ url_for('index') }}">Home</a></h2>
+<div class="row">
+  <div class="column">
+      <h3>Total North American Cases:</h3>
+      <img class="case-pics" src="/static/case1.jpeg">
+      <h4>{{nums}}</h4>
+  </div>
+  <div class="column">
+      <h3>Total North American Deaths:</h3>
+      <img class="case-pics" src="/static/case2.jpeg">
+      <h4>{{dead}}</h4>
+  </div>
+  <div class="column">
+      <h3>Total North American Recoveries:</h3>
+      <img class="case-pics" src="/static/case3.jpeg">
+      <h4>{{alive}}</h4>
+  </div>
+</div>
+</body>
+</html>
