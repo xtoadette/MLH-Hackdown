@@ -3,40 +3,23 @@ from bs4 import BeautifulSoup
 from lxml import etree
 from flask import Flask, request, url_for, redirect, render_template
 
-# global lists for ease
-global us_list
-global canada_list
-global mexico_list
-
 # create flask app
 app = Flask('testapp')
 
 
-# find case numbers
-def findNumbers(url):
-    templist = []
+# find numbers by html class
+def findByClass(url, html_class):
+    templist = []  # list of numbers
     req = requests.get(url)
     page = BeautifulSoup(req.content, 'html.parser')
-    for number in page.find_all(class_="maincounter-number"):
+    for number in page.find_all(class_=html_class):
         templist.append(number.text)
-    nums = list(map(lambda sub: int(''.join([n for n in sub if n.isnumeric()])), templist))
+    nums = list(map(lambda sub: int(''.join([n for n in sub if n.isnumeric()])), templist))  # string to int
     return nums
 
 
-# find cases by ethnicity
-def findByEthnicity():
-    url = 'https://covidtracking.com/race'
-    templist = []
-    req = requests.get(url)
-    page = BeautifulSoup(req.content, 'html.parser')
-    for number in page.find_all(class_="f18b9"):
-        templist.append(number.text)
-    nums = list(map(lambda sub: int(''.join([n for n in sub if n.isnumeric()])), templist))
-    return nums
-
-
-# get paragraph from MIT
-def getSusParagraph():
+# get paragraph from MIT by XPATH
+def getParagraph():
     info = "From MIT: "
     url = 'https://news.mit.edu/2021/covid-masks-environment-0720'
     req = requests.get(url)
@@ -47,7 +30,7 @@ def getSusParagraph():
     info += str(infolist[0])
     info += " "
     info += str(infolist[1])
-    return info
+    return info  # string created from xpath scraping
 
 
 # main route
@@ -61,7 +44,7 @@ def index():
 def index_func():
     if request.method == 'POST':
         return redirect(url_for('index'))
-    return render_template('cases.html', nums=nums, dead=dead, alive=alive)
+    return render_template('cases.html', nums=nums, dead=dead, alive=alive, usNums=usNums, usDead=usDead, usAlive=usAlive)
 
 
 # impact route
@@ -69,7 +52,7 @@ def index_func():
 def impact_func():
     if request.method == 'POST':
         return redirect(url_for('index'))
-    return render_template('impact.html', bl=bl, ai=ai, hl=hl, nh=nh, oh=oh, an=an)
+    return render_template('impact.html', bl=bl, ai=ai, hl=hl, nh=nh, oh=oh, an=an, wh=wh)
 
 
 # env route
@@ -82,10 +65,12 @@ def env_func():
 
 # main function
 if __name__ == "__main__":
-    us_list = findNumbers('https://www.worldometers.info/coronavirus/country/us/')
-    canada_list = findNumbers('https://www.worldometers.info/coronavirus/country/canada/')
-    mexico_list = findNumbers('https://www.worldometers.info/coronavirus/country/mexico/')
+    # get case numbers, put into list
+    us_list = findByClass('https://www.worldometers.info/coronavirus/country/us/', "maincounter-number")
+    canada_list = findByClass('https://www.worldometers.info/coronavirus/country/canada/', "maincounter-number")
+    mexico_list = findByClass('https://www.worldometers.info/coronavirus/country/mexico/', "maincounter-number")
 
+    # find total north american numbers
     totalNumbers = us_list[0] + canada_list[0] + mexico_list[0]
     nums = "{:,}".format(totalNumbers)
 
@@ -95,15 +80,24 @@ if __name__ == "__main__":
     totalRecovered = us_list[2] + canada_list[2] + mexico_list[2]
     alive = "{:,}".format(totalRecovered)
 
-    eth = findByEthnicity()
+    # get total us numbers
+    usNums = "{:,}".format(us_list[0])
+    usDead = "{:,}".format(us_list[1])
+    usAlive = "{:,}".format(us_list[2])
+
+    # find numbers by ethnicity, convert to int from string
+    eth = findByClass('https://covidtracking.com/race', "f18b9")
     bl = "{:,}".format(eth[0])
     ai = "{:,}".format(eth[1])
     hl = "{:,}".format(eth[2])
     nh = "{:,}".format(eth[3])
-    an = "{:,}".format(eth[5])
-    oh = "{:,}".format(eth[4])
+    wh = "{:,}".format(eth[4])
+    an = "{:,}".format(eth[6])
+    oh = "{:,}".format(eth[5])
 
-    sus = getSusParagraph()
+    # get environmental paragraph
+    sus = getParagraph()
 
+    # run flask
     app.run()
 

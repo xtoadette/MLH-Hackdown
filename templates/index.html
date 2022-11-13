@@ -14,11 +14,15 @@
         </div>
         <div class="div-col">
             <h1>Covid-19 in a Nutshell</h1>
-            <ul>
-                <li class="main-list"><a href="{{ url_for('index_func') }}">Cases</a></li>
-                <li class="main-list"><a href="{{ url_for('env_func') }}">Environmental Impact</a></li>
-                <li class="main-list"><a href="{{ url_for('impact_func') }}">Social Impact</a></li>
-            </ul>
+            <a href="{{ url_for('index_func') }}">
+            <button class="btn btn-primary btn-lg">Cases</button>
+            </a>
+            <a href="{{ url_for('env_func') }}">
+            <button class="btn btn-primary btn-lg">Environmental Impact</button>
+            </a>
+            <a href="{{ url_for('impact_func') }}">
+            <button class="btn btn-primary btn-lg">Social Impact</button>
+            </a>
         </div>
     </div>
  </body>
